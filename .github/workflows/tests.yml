@@ -1,0 +1,35 @@
+name: QA Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: pip install selenium pytest pytest-html
+
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@v1
+
+    - name: Run tests
+      run: python -m pytest tests/ -v --html=reports/report.html
+
+    - name: Upload report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: reporte-html
+        path: reports/report.html
