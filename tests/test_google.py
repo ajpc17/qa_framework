@@ -10,3 +10,5 @@ def test_busqueda(driver):
     page.open()
     page.search("QA automation")
     assert len(page.get_title()) > 0
+
+    
