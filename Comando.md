@@ -26,3 +26,10 @@ git status
 
 ## Ver historial de commits
 git log --oneline
+
+Para Farma Humana:
+
+Inspeccionar elementos → copiar IDs
+Copiar una Page Object existente → cambiar URL e IDs
+Copiar un test existente → cambiar datos
+Ejecutar pytest
