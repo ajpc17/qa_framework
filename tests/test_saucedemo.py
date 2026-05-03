@@ -1,23 +1,8 @@
+import pytest
 from pages.saucedemo_login_page import SaucedemoLoginPage
 from pages.saucedemo_productos_page import SaucedemoProductosPage
 
-def test_login_exitoso(driver):
-    page = SaucedemoLoginPage(driver)
-    page.open()
-    page.login("standard_user", "secret_sauce")
-    assert page.get_titulo_pagina() == "Products"
-
-def test_login_usuario_bloqueado(driver):
-    page = SaucedemoLoginPage(driver)
-    page.open()
-    page.login("locked_out_user", "secret_sauce")
-    assert "locked out" in page.get_error_message()
-
-def test_login_password_incorrecta(driver):
-    page = SaucedemoLoginPage(driver)
-    page.open()
-    page.login("standard_user", "password_incorrecta")
-    assert "do not match" in page.get_error_message()
+# --- Tests normales ---
 
 def test_productos_visibles(driver):
     login = SaucedemoLoginPage(driver)
@@ -33,3 +18,18 @@ def test_agregar_al_carrito(driver):
     productos = SaucedemoProductosPage(driver)
     productos.agregar_primer_producto()
     assert productos.get_cantidad_carrito() == "1"
+
+# --- Data Driven Testing ---
+
+@pytest.mark.parametrize("usuario,password,esperado", [
+    ("standard_user",   "secret_sauce",      "Products"),
+    ("locked_out_user", "secret_sauce",      "locked out"),
+    ("invalid_user",    "wrong_pass",        "do not match"),
+    ("standard_user",   "wrong_pass",        "do not match"),
+    ("",                "",                  "Username is required"),
+])
+def test_login_data_driven(driver, usuario, password, esperado):
+    page = SaucedemoLoginPage(driver)
+    page.open()
+    page.login(usuario, password)
+    assert esperado in driver.page_source
