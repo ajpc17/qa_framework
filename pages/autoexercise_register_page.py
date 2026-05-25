@@ -1,6 +1,4 @@
-# NOTA: estos tests fallan porque automationexercise.com
-# tiene proteccion anti-bot (Cloudflare) que bloquea Selenium.
-# El codigo es correcto - el sitio detecta automatizacion.
+
 
 
 from selenium.webdriver.common.by import By

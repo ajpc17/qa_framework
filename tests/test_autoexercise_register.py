@@ -1,8 +1,4 @@
 
-# NOTA: estos tests fallan porque automationexercise.com
-# tiene proteccion anti-bot (Cloudflare) que bloquea Selenium.
-# El codigo es correcto - el sitio detecta automatizacion.
-
 import pytest
 import time
 from pages.autoexercise_register_page import AutoexerciseRegisterPage
