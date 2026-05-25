@@ -12,8 +12,23 @@ class AutomationLoginPage:
 
     def open(self):
         self.driver.get(self.URL)
+        self._cerrar_anuncio()
+
+    def _cerrar_anuncio(self):
+        try:
+            boton = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable(
+                    (By.CSS_SELECTOR, "div[id='ad_position_box'] button")
+                )
+            )
+            boton.click()
+        except:
+            pass
 
     def login(self, email, password):
+        self.wait.until(
+            EC.presence_of_element_located((By.NAME, "email"))
+        )
         self.driver.find_element(By.NAME, "email").send_keys(email)
         self.driver.find_element(By.NAME, "password").send_keys(password)
         self.driver.find_element(
@@ -22,8 +37,3 @@ class AutomationLoginPage:
 
     def login_exitoso(self):
         return "Logged in as" in self.driver.page_source
-
-    def get_error_message(self):
-        return self.wait.until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".login-form p"))
-        ).text
